@@ -1,0 +1,40 @@
+SOCIAL APP UI UPDATE
+
+Replace these files in your project:
+- src/components/PostDetailModal.js
+- src/screens/HomeScreen.js
+
+ProfileScreen.js changes:
+1) Change import:
+   import PostDetailModal from '../components/PostDetailModal';
+   to:
+   import PostDetailModal, { PostPreviewModal } from '../components/PostDetailModal';
+
+2) Add these states beside detailVisible/detailPost:
+   const [previewVisible, setPreviewVisible] = useState(false);
+   const [previewPost, setPreviewPost] = useState(null);
+
+3) Add these functions inside ProfileScreen:
+   function openPostPreview(post) {
+     setPreviewPost(post);
+     setPreviewVisible(true);
+   }
+
+   function openPreviewDetail() {
+     setPreviewVisible(false);
+     if (previewPost) openPostDetail(previewPost);
+   }
+
+4) On the grid TouchableOpacity add:
+   onLongPress={() => openPostPreview(post)}
+   delayLongPress={450}
+
+5) Directly after the existing PostDetailModal JSX, add:
+   <PostPreviewModal
+     visible={previewVisible}
+     post={previewPost}
+     onClose={() => setPreviewVisible(false)}
+     onOpenPost={openPreviewDetail}
+   />
+
+The PostDetailModal header can be dragged downward to close. The back arrow remains available and is positioned lower.
