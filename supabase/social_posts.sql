@@ -9,7 +9,7 @@ create table if not exists public.social_posts (
   media_url text not null,
   media_path text not null,
   media_type text not null default 'image'
-    check (media_type in ('image')),
+    check (media_type in ('image', 'video')),
   created_at timestamptz not null default now()
 );
 

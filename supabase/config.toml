@@ -1,0 +1,4 @@
+
+
+[functions.send-dm-push]
+verify_jwt = false

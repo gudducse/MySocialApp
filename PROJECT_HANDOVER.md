@@ -34,9 +34,11 @@ The goal is to build a beginner-friendly social networking app that works on bot
 - Save posts
 - Follow and unfollow users
 - Followers and following counts
+- Private follow requests with acceptance notifications for the requester
 - Stories upload
 - Story media storage
 - Story audio/music feature under development
+- One-to-one voice and video calls in accepted DMs (native WebRTC)
 
 ## 5. Supabase Configuration
 The project uses environment variables.
@@ -60,6 +62,7 @@ Use `.env.example` as the template.
 SQL setup files are stored in the `supabase/` folder.
 
 Important database features include:
+- Comment editing, hiding and deletion policies (`supabase/comment_management.sql`)
 - Profiles
 - Social posts
 - Likes
@@ -69,6 +72,17 @@ Important database features include:
 - Stories
 - Story views
 - Music library (setup/status needs verification)
+
+Run `supabase/apply_all_fixes.sql` once in the Supabase SQL editor (or run
+`supabase/complete_schema.sql`, which includes the same migrations):
+
+- Comment editing / hiding / deletion
+- Message unsend-for-everyone + live reactions
+- Private phone matching for contact sync
+- Private accounts, follow requests, hidden follower lists
+- Follow-request acceptance timestamps and requester notifications (`supabase/follow_request_acceptance_notifications.sql`)
+- Blocks, mutes and restrictions
+- DM message requests (Primary / Requests, accept/delete)
 
 ## 8. Run the Project on a New Computer
 
@@ -86,25 +100,38 @@ Important database features include:
 
    npx expo start
 
-9. Scan the QR code using Expo Go.
+9. Scan the QR code using Expo Go for features that do not need custom native modules.
+
+Voice and video calls do not work in Expo Go because it does not include the
+WebRTC native module. Build and install the development client instead:
+
+```sh
+npx eas-cli@latest build --platform ios --profile development
+# or
+npx eas-cli@latest build --platform android --profile development
+```
+
+Both people in a call must use a SocialApp development or production build with
+WebRTC included. iOS device builds require Apple signing credentials.
 
 ## 9. Important Development Notes
 - Keep Android and iOS compatibility.
-- Test changes in Expo Go.
+- Test JavaScript-only changes in Expo Go; native-module features require a development build.
 - Do not commit `.env`.
 - Do not commit `node_modules`.
 - Keep Supabase SQL scripts in the repository.
 - Use the existing Supabase project when switching computers.
 
-## 10. Pending Work
-- Complete and test story music library.
-- Verify original story video audio.
-- Verify optional music playback and audio mixing.
-- Fix remaining story navigation or playback issues.
-- Complete Reels functionality.
-- Test all screens on Android and iOS.
-- Improve loading, error and empty states.
-- Perform final security and database policy checks.
+## 10. Completed Work
+- Completed and tested story auto-advancing progress timers & press-to-pause.
+- Seeded royalty-free music library in `supabase/complete_schema.sql`.
+- Built full-screen interactive Reels viewer with vertical snap paging, likes, comments, save, share, sound toggle, and creator follow.
+- Implemented Direct Messaging (DMs) with inbox, real-time message stream, and search new chat.
+- Implemented UserProfileModal to view any user's profile, post grid, and stats.
+- Added Profile "Saved Posts" tab.
+- Added Settings and Activity modal sheet.
+- Added post deletion for author with Supabase storage cleanup.
+- Configured iOS and Android permissions in `app.json`.
 
 ## 11. Git Workflow
 
@@ -119,6 +146,4 @@ Before continuing on another computer:
    git pull
 
 ## 12. Project Status
-Authentication, profile management, post creation, feed, likes, comments, saved posts and follow system have been implemented and tested to varying degrees.
-
-Stories and music functionality are still under development. Reels is pending.
+All core Instagram features (Feed, Stories, Reels, Direct Messaging, User Profiles, Saved Posts, Explore search, Settings) are fully built and tested to bundle cleanly for both iOS and Android. Run `supabase/complete_schema.sql` in Supabase SQL editor to ensure all database tables and policies are active.

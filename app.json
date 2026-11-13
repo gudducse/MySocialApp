@@ -1,21 +1,45 @@
 {
   "expo": {
-    "name": "social-app",
+    "name": "SocialApp",
     "slug": "social-app",
+    "scheme": "socialapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow SocialApp to access your photos and videos to share posts and stories.",
+        "NSCameraUsageDescription": "Allow SocialApp to access your camera to take photos and record stories.",
+        "NSMicrophoneUsageDescription": "Allow SocialApp to access your microphone to record audio for stories and videos."
+      },
+      "bundleIdentifier": "com.guddu.socialapp"
     },
     "android": {
+      "softwareKeyboardLayoutMode": "resize",
+      "blockedPermissions": [
+        "android.permission.WRITE_CONTACTS"
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "permissions": [
+        "READ_MEDIA_IMAGES",
+        "READ_MEDIA_VIDEO",
+        "READ_MEDIA_AUDIO",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+        "READ_CONTACTS"
+      ],
+      "package": "com.guddu.socialapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -24,7 +48,27 @@
       "expo-status-bar",
       "expo-font",
       "expo-video",
-      "expo-audio"
-    ]
+      "expo-audio",
+      "expo-asset",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow SocialApp to find people you know who already use the app. Contacts are only checked when you tap Contacts."
+        }
+      ],
+      "expo-notifications",
+      [
+        "@config-plugins/react-native-webrtc",
+        {
+          "cameraPermission": "Allow SocialApp to access your camera for encrypted video calls.",
+          "microphonePermission": "Allow SocialApp to access your microphone for encrypted calls."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a97dc5fb-e7d6-410e-aa84-c1b5ede0fc0f"
+      }
+    }
   }
 }

@@ -49,3 +49,13 @@ coverage/
 !.env.example
 .DS_Store
 *.log
+.dm-webhook-secret
+supabase/.temp/
+*.backup
+*.backup[0-9]*
+*.notification-backup
+*.presence-backup
+*.typing-backup
+*.before-audience-fetch
+*.before-signed-urls
+/app.json{
